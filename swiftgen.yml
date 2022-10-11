@@ -1,0 +1,23 @@
+strings:
+  inputs:
+    - EggTimer/Resources/Strings/en.lproj
+  outputs:
+    - templateName: structured-swift5
+      output: EggTimer/Generated/Strings+Generated.swift
+
+xcassets:
+  inputs:
+    - EggTimer/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift5
+      params:
+        forceProvidesNamespaces: true
+      output: EggTimer/Generated/XCAssets+Generated.swift
+
+files:
+  inputs: 
+    - EggTimer/Resources/Sounds
+  filter: .+\.mp3$
+  outputs:
+    templateName: structured-swift5
+    output: EggTimer/Generated/Sounds+Generated.swift
