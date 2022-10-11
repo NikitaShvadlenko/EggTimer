@@ -192,3 +192,4 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/swift,appcode
 EggTimer.xcodeproj/project.pbxproj
+EggTimer.xcodeproj
