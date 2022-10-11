@@ -1,1 +1,6 @@
-
+"appName" = "Egg Timer";
+"soft" = "Soft";
+"medium" = "Medium";
+"hard" = "Hard";
+"ready" = "Ready";
+"start" = "Start";
