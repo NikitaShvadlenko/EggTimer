@@ -1,5 +1,6 @@
 *.xcodeproj
 *.xcworkspace
+*.pbxproj
 
 ### SwiftGen ###
 **/Generated
