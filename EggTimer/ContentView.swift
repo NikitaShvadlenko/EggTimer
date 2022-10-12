@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     var eggs = [
-        Egg(name: L10n.hard, imageName: Asset.hardEgg.name),
+        Egg(name: L10n.soft, imageName: Asset.softEgg.name),
         Egg(name: L10n.medium, imageName: Asset.mediumEgg.name),
-        Egg(name: L10n.soft, imageName: Asset.softEgg.name)
+        Egg(name: L10n.hard, imageName: Asset.hardEgg.name)
     ]
 
     var body: some View {
@@ -28,7 +28,7 @@ struct ContentView: View {
     }
 
     var eggStack: some View {
-        HStack(alignment: .top, spacing: 25) {
+        HStack(alignment: .center, spacing: 25) {
             ForEach(eggs) { egg in
                 EggImage(egg: egg)
             }
