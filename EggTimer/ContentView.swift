@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     var eggs = [
-        Egg(name: L10n.soft, imageName: Asset.softEgg.name),
-        Egg(name: L10n.medium, imageName: Asset.mediumEgg.name),
-        Egg(name: L10n.hard, imageName: Asset.hardEgg.name)
+        Egg(eggType: .soft),
+        Egg(eggType: .medium),
+        Egg(eggType: .hard)
     ]
 
     var body: some View {
