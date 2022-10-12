@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var eggTimer = EggTimer()
+
     var eggs = [
         Egg(eggType: .soft),
         Egg(eggType: .medium),
@@ -24,6 +26,7 @@ struct ContentView: View {
             }
             .padding()
         }
+        .environmentObject(eggTimer)
         .ignoresSafeArea()
     }
 
@@ -36,7 +39,7 @@ struct ContentView: View {
     }
 
     var mainScreenProgressView: some View {
-        ProgressView(value: 1)
+        ProgressView(value: eggTimer.progress)
             .progressViewStyle(LinearProgressViewStyle(tint: Color(Asset.Color.progressBarColor.color)))
             .shadow(
                 color: Color(Asset.Color.progressBarShadow.color),
@@ -45,10 +48,12 @@ struct ContentView: View {
                 y: 2
             )
     }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(EggTimer())
     }
 }
