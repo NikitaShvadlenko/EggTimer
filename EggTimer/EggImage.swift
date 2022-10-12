@@ -9,26 +9,25 @@ struct EggImage: View {
         ZStack {
             eggImage
                 .opacity(opacity)
-
-            Button {
-                withAnimation(fadeInFadeOutAnimation()) {
-                    opacity -= 0.4
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    opacity = 1
-                }
-            } label: {
-                Text(egg.name)
-                    .fontWeight(.heavy)
-                    .frame(height: 100)
-                    .font(.title)
-                    .lineLimit(1)
-                    .foregroundColor(Color(Asset.Color.eggStyleText.color))
-                    .aspectRatio(contentMode: .fit)
-                    .minimumScaleFactor(0.4)
-                    .opacity(opacity)
-            }
+            Text(egg.name)
+                .fontWeight(.heavy)
+                .font(.title2)
+                .lineLimit(1)
+                .foregroundColor(Color(Asset.Color.eggStyleText.color))
+                .aspectRatio(contentMode: .fit)
+                .minimumScaleFactor(0.4)
+                .opacity(opacity)
             .opacity(opacity)
+        }
+        .onTapGesture {
+            withAnimation(fadeInFadeOutAnimation()) {
+                opacity -= 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(fadeInFadeOutAnimation()) {
+                        opacity = 1
+                    }
+                }
+            }
         }
     }
 
@@ -39,8 +38,7 @@ struct EggImage: View {
     }
 
      var fadeInFadeOutAnimation = {
-         Animation.linear(duration: 0.3)
-            .repeatCount(2, autoreverses: true)
+         Animation.linear
     }
 }
 
