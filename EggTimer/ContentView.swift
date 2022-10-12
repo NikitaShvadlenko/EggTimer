@@ -1,7 +1,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var eggTimer = EggTimer()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var mainScreenText: String = L10n.mainMenuTitle
+    @State var timerIsActive = false
+    @State var progress: Double = 0
+    @State var timeRemaining = 0
+    @State var timePassed = 0
+
+    @State var boilingTime = 0 {
+        didSet {
+            timeRemaining = boilingTime
+        }
+    }
 
     var eggs = [
         Egg(eggType: .soft),
@@ -15,7 +26,7 @@ struct ContentView: View {
 
             VStack(alignment: .center) {
                 Spacer()
-                Text(L10n.mainMenuTitle)
+                Text(mainScreenText)
                     .font(.title)
                     .foregroundColor(Color(Asset.Color.titleText.color))
                 Spacer()
@@ -26,20 +37,36 @@ struct ContentView: View {
             }
             .padding()
         }
-        .environmentObject(eggTimer)
         .ignoresSafeArea()
+        .onReceive(timer) { _ in
+            guard timerIsActive else { return }
+            if timeRemaining > 0 {
+                timePassed = boilingTime - timeRemaining
+                progress = (Double(timePassed)/Double(boilingTime))
+                mainScreenText = "\(timeRemaining)"
+                timeRemaining -= 1
+            } else {
+                timeRemaining = 0
+                timerIsActive = false
+                mainScreenText = L10n.ready
+            }
+        }
     }
 
     var eggStack: some View {
         HStack(alignment: .center, spacing: 25) {
             ForEach(eggs) { egg in
                 EggImage(egg: egg)
+                    .onTapGesture {
+                        timerIsActive = true
+                        boilingTime = egg.cookingTime
+                    }
             }
         }
     }
 
     var mainScreenProgressView: some View {
-        ProgressView(value: eggTimer.progress)
+        ProgressView(value: progress)
             .progressViewStyle(LinearProgressViewStyle(tint: Color(Asset.Color.progressBarColor.color)))
             .shadow(
                 color: Color(Asset.Color.progressBarShadow.color),
@@ -47,6 +74,7 @@ struct ContentView: View {
                 x: 1,
                 y: 2
             )
+
     }
 
 }
@@ -54,6 +82,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(EggTimer())
     }
 }

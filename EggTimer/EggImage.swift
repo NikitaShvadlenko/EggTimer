@@ -4,7 +4,6 @@ struct EggImage: View {
 
     var egg: Egg
     @State private var opacity = 1.0
-    @EnvironmentObject var eggTimer: EggTimer
 
     var body: some View {
         ZStack {
@@ -20,17 +19,16 @@ struct EggImage: View {
                 .opacity(opacity)
                 .opacity(opacity)
         }
-        .onTapGesture {
-            eggTimer.runTimer(for: egg.eggType)
-            withAnimation(Animation.linear(duration: 0.2)) {
-                opacity -= 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    withAnimation(Animation.linear(duration: 0.2)) {
-                        opacity = 1
-                    }
-                }
-            }
-        }
+//        .onTapGesture {
+//            withAnimation(Animation.linear(duration: 0.2)) {
+//                opacity -= 1
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                    withAnimation(Animation.linear(duration: 0.2)) {
+//                        opacity = 1
+//                    }
+//                }
+//            }
+//        }
     }
 
     var eggImage: some View {
