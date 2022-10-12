@@ -20,10 +20,10 @@ struct EggImage: View {
             .opacity(opacity)
         }
         .onTapGesture {
-            withAnimation(fadeInFadeOutAnimation()) {
+            withAnimation(Animation.linear) {
                 opacity -= 1
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    withAnimation(fadeInFadeOutAnimation()) {
+                    withAnimation(Animation.linear) {
                         opacity = 1
                     }
                 }
@@ -36,19 +36,12 @@ struct EggImage: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
     }
-
-     var fadeInFadeOutAnimation = {
-         Animation.linear
-    }
 }
 
 struct EggImage_Previews: PreviewProvider {
     static var previews: some View {
         EggImage(
-            egg: Egg.init(
-                name: L10n.hard,
-                imageName: Asset.hardEgg.name
-            )
+            egg: Egg(eggType: .soft)
         )
     }
 }
