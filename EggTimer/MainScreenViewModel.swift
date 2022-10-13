@@ -1,7 +1,7 @@
 import SwiftUI
 
 final class MainScreenViewModel: ObservableObject {
-    @Published var progress: Double = 0
+    @Published var progress: Double = 0.0
     @Published var mainScreenText: String = L10n.mainMenuTitle
 
     let musicPlayer = MusicPlayer()
@@ -24,7 +24,7 @@ final class MainScreenViewModel: ObservableObject {
         } else {
             mainScreenText = configureMainScreenCountdown(eggTimer.timeRemaining)
         }
-        progress = Double(eggTimer.timePassed)/Double(eggTimer.boilingTime)
+        progress = eggTimer.timePassed/eggTimer.boilingTime
     }
 
     private func suggestToBoilMoreEggs() {
@@ -36,7 +36,7 @@ final class MainScreenViewModel: ObservableObject {
         }
     }
 
-    private func configureMainScreenCountdown(_ seconds: Int) -> String {
+    private func configureMainScreenCountdown(_ seconds: Double) -> String {
         let formatter = DateFormatter()
         let timeInterval = TimeInterval(seconds)
         let date = Date(timeIntervalSince1970: timeInterval)

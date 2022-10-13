@@ -1,12 +1,12 @@
 import SwiftUI
 
 final class EggTimer: ObservableObject {
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @Published var timerIsActive = false
-    @Published var timeRemaining = 0
-    @Published var timePassed = 0
+    @Published var timeRemaining = 0.0
+    @Published var timePassed = 0.0
 
-    @Published var boilingTime = 0 {
+    @Published var boilingTime = 0.0 {
         didSet {
             timeRemaining = boilingTime
         }
@@ -14,7 +14,7 @@ final class EggTimer: ObservableObject {
 
     func doOneTick() {
         if timeRemaining > 0 {
-            timeRemaining -= 1
+            timeRemaining -= 0.1
         } else {
             timeRemaining = 0
             timerIsActive = false
@@ -22,7 +22,7 @@ final class EggTimer: ObservableObject {
         timePassed = boilingTime - timeRemaining
     }
 
-    func activateTimer(time: Int) {
+    func activateTimer(time: Double) {
         self.boilingTime = time
         self.timerIsActive = true
     }
