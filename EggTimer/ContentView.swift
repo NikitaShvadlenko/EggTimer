@@ -31,7 +31,6 @@ struct ContentView: View {
         .ignoresSafeArea()
         .onReceive(eggTimer.timer) { _ in
             guard eggTimer.timerIsActive else { return }
-            progress = Double(eggTimer.timePassed/eggTimer.boilingTime)
             eggTimer.doOneTick()
             if eggTimer.timeRemaining <= 0 {
                 mainScreenText = L10n.ready
@@ -46,10 +45,7 @@ struct ContentView: View {
     var eggStack: some View {
         HStack(alignment: .center, spacing: 25) {
             ForEach(eggs) { egg in
-                EggImage(egg: egg)
-                    .onTapGesture {
-                        eggTimer.activateTimer(time: egg.cookingTime)
-                    }
+                EggImage(egg: egg, eggTimer: eggTimer)
             }
         }
     }
