@@ -10,8 +10,11 @@ import SwiftUI
 @main
 struct EggTimerApp: App {
     var body: some Scene {
+        let eggTimer = EggTimer()
         WindowGroup {
-            ContentView(eggTimer: EggTimer())
+            ContentView(
+                viewModel: ViewModel(eggTimer: eggTimer)
+            )
         }
     }
 }

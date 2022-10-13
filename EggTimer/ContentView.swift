@@ -1,15 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var eggTimer: EggTimer
-    @State var mainScreenText: String = L10n.mainMenuTitle
-    @State var progress: Double = 0.0
-
-    var eggs = [
-        Egg(eggType: .soft),
-        Egg(eggType: .medium),
-        Egg(eggType: .hard)
-    ]
+    @ObservedObject var viewModel: ViewModel
 
     var body: some View {
         ZStack {
@@ -17,7 +9,7 @@ struct ContentView: View {
 
             VStack(alignment: .center) {
                 Spacer()
-                Text(mainScreenText)
+                Text(viewModel.mainScreenText)
                     .font(.title)
                     .foregroundColor(Color(Asset.Color.titleText.color))
                 Spacer()
@@ -29,29 +21,21 @@ struct ContentView: View {
             .padding()
         }
         .ignoresSafeArea()
-        .onReceive(eggTimer.timer) { _ in
-            guard eggTimer.timerIsActive else { return }
-            eggTimer.doOneTick()
-            if eggTimer.timeRemaining <= 0 {
-                mainScreenText = L10n.ready
-            } else {
-                mainScreenText = String(eggTimer.timeRemaining)
-            }
-
-            progress = Double(eggTimer.timePassed)/Double(eggTimer.boilingTime)
+        .onReceive(viewModel.eggTimer.timer) { _ in
+            viewModel.updateViews()
         }
     }
 
     var eggStack: some View {
         HStack(alignment: .center, spacing: 25) {
-            ForEach(eggs) { egg in
-                EggImage(egg: egg, eggTimer: eggTimer)
+            ForEach(viewModel.eggs) { egg in
+                EggImage(egg: egg, eggTimer: viewModel.eggTimer)
             }
         }
     }
 
     var mainScreenProgressView: some View {
-        ProgressView(value: progress)
+        ProgressView(value: viewModel.progress)
             .progressViewStyle(LinearProgressViewStyle(tint: Color(Asset.Color.progressBarColor.color)))
             .shadow(
                 color: Color(Asset.Color.progressBarShadow.color),
@@ -65,6 +49,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(eggTimer: EggTimer())
+        let eggTimer = EggTimer()
+        ContentView(
+            viewModel: ViewModel(eggTimer: eggTimer)
+        )
     }
 }
