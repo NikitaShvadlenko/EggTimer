@@ -23,6 +23,7 @@ struct EggImage: View {
                 opacity -= 1
 
             }
+
             withAnimation(Animation.linear(duration: 0.2).delay(0.2)) {
                 opacity = 1
             }
