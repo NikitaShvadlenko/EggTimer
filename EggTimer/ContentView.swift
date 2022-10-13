@@ -1,18 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @ObservedObject var eggTimer: EggTimer
     @State var mainScreenText: String = L10n.mainMenuTitle
-    @State var timerIsActive = false
-    @State var progress: Double = 0
-    @State var timeRemaining = 0
-    @State var timePassed = 0
-
-    @State var boilingTime = 0 {
-        didSet {
-            timeRemaining = boilingTime
-        }
-    }
+    @State var progress: Double = 0.0
 
     var eggs = [
         Egg(eggType: .soft),
@@ -38,17 +29,14 @@ struct ContentView: View {
             .padding()
         }
         .ignoresSafeArea()
-        .onReceive(timer) { _ in
-            guard timerIsActive else { return }
-            if timeRemaining > 0 {
-                timePassed = boilingTime - timeRemaining
-                progress = (Double(timePassed)/Double(boilingTime))
-                mainScreenText = "\(timeRemaining)"
-                timeRemaining -= 1
-            } else {
-                timeRemaining = 0
-                timerIsActive = false
+        .onReceive(eggTimer.timer) { _ in
+            guard eggTimer.timerIsActive else { return }
+            progress = Double(eggTimer.timePassed/eggTimer.boilingTime)
+            eggTimer.doOneTick()
+            if eggTimer.timeRemaining <= 0 {
                 mainScreenText = L10n.ready
+            } else {
+                mainScreenText = String(eggTimer.timeRemaining)
             }
         }
     }
@@ -58,8 +46,7 @@ struct ContentView: View {
             ForEach(eggs) { egg in
                 EggImage(egg: egg)
                     .onTapGesture {
-                        timerIsActive = true
-                        boilingTime = egg.cookingTime
+                        eggTimer.activateTimer(time: egg.cookingTime)
                     }
             }
         }
@@ -76,11 +63,10 @@ struct ContentView: View {
             )
 
     }
-
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(eggTimer: EggTimer())
     }
 }

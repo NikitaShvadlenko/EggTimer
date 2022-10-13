@@ -11,7 +11,7 @@ import SwiftUI
 struct EggTimerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(eggTimer: EggTimer())
         }
     }
 }
