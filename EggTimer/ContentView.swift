@@ -43,7 +43,6 @@ struct ContentView: View {
                 x: 1,
                 y: 2
             )
-
     }
 }
 
