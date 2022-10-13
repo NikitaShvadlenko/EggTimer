@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct EggImage: View {
-
     var egg: Egg
     @State private var opacity = 1.0
     @ObservedObject var eggTimer: EggTimer
@@ -23,12 +22,11 @@ struct EggImage: View {
         .onTapGesture {
             withAnimation(Animation.linear(duration: 0.2)) {
                 opacity -= 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    withAnimation(Animation.linear(duration: 0.2)) {
-                        opacity = 1
-                    }
-                    eggTimer.activateTimer(time: egg.cookingTime)
-                }
+                eggTimer.activateTimer(time: egg.cookingTime)
+            }
+
+            withAnimation(Animation.linear(duration: 0.2).delay(0.2)) {
+                opacity = 1
             }
         }
     }
