@@ -38,6 +38,8 @@ struct ContentView: View {
             } else {
                 mainScreenText = String(eggTimer.timeRemaining)
             }
+
+            progress = Double(eggTimer.timePassed)/Double(eggTimer.boilingTime)
         }
     }
 
