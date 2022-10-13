@@ -13,7 +13,7 @@ struct EggTimerApp: App {
         let eggTimer = EggTimer()
         WindowGroup {
             ContentView(
-                viewModel: ViewModel(eggTimer: eggTimer)
+                viewModel: MainScreenViewModel(eggTimer: eggTimer)
             )
         }
     }

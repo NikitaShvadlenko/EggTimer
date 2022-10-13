@@ -1,6 +1,6 @@
 import SwiftUI
 
-final class ViewModel: ObservableObject {
+final class MainScreenViewModel: ObservableObject {
     @Published var progress: Double = 0
     @Published var mainScreenText: String = L10n.mainMenuTitle
 

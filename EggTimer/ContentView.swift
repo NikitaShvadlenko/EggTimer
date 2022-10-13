@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var viewModel: MainScreenViewModel
 
     var body: some View {
         ZStack {
@@ -29,7 +29,7 @@ struct ContentView: View {
     var eggStack: some View {
         HStack(alignment: .center, spacing: 25) {
             ForEach(viewModel.eggs) { egg in
-                EggImage(egg: egg, eggTimer: viewModel.eggTimer)
+                EggImage(viewModel: EggImageViewModel(egg: egg, eggTimer: viewModel.eggTimer))
             }
         }
     }
@@ -51,7 +51,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let eggTimer = EggTimer()
         ContentView(
-            viewModel: ViewModel(eggTimer: eggTimer)
+            viewModel: MainScreenViewModel(eggTimer: eggTimer)
         )
     }
 }

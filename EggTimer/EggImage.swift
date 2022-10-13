@@ -1,15 +1,14 @@
 import SwiftUI
 
 struct EggImage: View {
-    var egg: Egg
+    var viewModel: EggImageViewModel
     @State private var opacity = 1.0
-    @ObservedObject var eggTimer: EggTimer
 
     var body: some View {
         ZStack {
             eggImage
                 .opacity(opacity)
-            Text(egg.name)
+            Text(viewModel.eggTypeName)
                 .fontWeight(.heavy)
                 .font(.title2)
                 .lineLimit(1)
@@ -22,17 +21,18 @@ struct EggImage: View {
         .onTapGesture {
             withAnimation(Animation.linear(duration: 0.2)) {
                 opacity -= 1
-                eggTimer.activateTimer(time: egg.cookingTime)
+
             }
 
             withAnimation(Animation.linear(duration: 0.2).delay(0.2)) {
                 opacity = 1
             }
+            viewModel.activateTimer()
         }
     }
 
     var eggImage: some View {
-        Image(egg.imageName)
+        Image(viewModel.eggImageName)
             .resizable()
             .aspectRatio(contentMode: .fit)
     }
@@ -40,9 +40,13 @@ struct EggImage: View {
 
 struct EggImage_Previews: PreviewProvider {
     static var previews: some View {
-        EggImage(
-            egg: Egg(eggType: .soft),
+        let viewModel = EggImageViewModel(
+            egg: SampleData().egg,
             eggTimer: EggTimer()
+        )
+
+        EggImage(
+            viewModel: viewModel
         )
     }
 }
